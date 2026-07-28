@@ -1,0 +1,24 @@
+What is Ansible?
+- Most popular open source automation tool
+- Created in 2012
+- Acquired by redhat 2015
+
+Feature:
+- Agentless
+- Use same method as Admin
+	- Secure Shell(SSH)
+	- Windows Remote Management(WinRM)
+	- Application programming Interface(API)
+
+Simplicity:
+- Playbooks: YAML automation scripts
+- YAML has reusability
+- Don't need to be programmer
+
+-------------Cross Platform Compatibility/Scalablity-------------
+
+Active COmmunity: 
+	- Software developers
+	- Administrator
+
+
