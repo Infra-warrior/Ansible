@@ -1,0 +1,85 @@
+-----------------Module 2 ----------------
+################Playbooks####################
+
+Playbooks are the scripts that the Ansible binary will consume to perform Automation. 
+
+Review a Playbook
+
+- YAML
+	- Helps with readability
+	- Indentation very important
+	- spaces, not tabs
+		- Playbooks fail with tabs
+	- Indentation is how YAML shows precedence
+	- Good practice is two spaces when Indenting
+
+######### Playbook components #################
+
+- Play
+	- You are the coach; playbook tells player what to do
+	- Can have multiple plays
+	- Play defines new set of hosts
+	- Name optional, but should be used
+		- Acts as documentation, shows up in output
+	- Hosts: comma-seperated list of hosts and/or groups
+		---
+		- name: Perform package updates
+		  hosts: web
+		  gather_facts: false
+
+- Task
+	- Ordered list of automations
+	- Performed in sequence
+	- Complete first task for all host
+	- Each task accomplishes one thing
+		task:
+		 - name: Update all packages on system
+		   ansible.builtin.dnf:
+			name: "*"
+			state: latest
+- Modules
+	- Refernce Python or Powershell
+	- No programming knowledge needed
+	- Fraction of existing modules included in Community edtion
+	- Addtional modules delivered as collections
+		ansible.builtin.dnf:
+			name: "*"
+			state: latest
+
+- Collection
+	- Collection: archive in TAR format
+	- Places files on Ansible server
+	- Fully qualified collection name (FQCN): using full
+		naming when calling module in playbooks.
+
+
+################### Inventory #######################
+
+- Inventory
+	- Big list of all available hosts
+	- Playbooks hosts reference things in Inventory
+	- Inventory: menu
+	- Playbook hosts: order
+	- When executing a playbook, an inventory must be specified
+
+* Inventory are stored in INI or YAML format.
+	INI older/most common
+
+- INI Inventory Details
+	- Fully qualified domain name(FQDN): DNS Resolvable.
+	- FQDN: done
+	- Magic variable: known to ansible
+	- ansible_host: use this IP to connect
+	- Custom  variable: arbitrary name
+* Learn YAM vs INI
+
+- Dynamic Inventory Source
+	- Run a script to build Inventory
+	- Configuration management database(CMDB): remote
+		source storing host information
+	- Examples:
+		- ServiceNow
+		- CSV
+	- Keeps inventories from going stale
+
+----- Module 2 End-------------

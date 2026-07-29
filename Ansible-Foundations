@@ -1,0 +1,100 @@
+------------------Module 1--------------------
+##########What is Ansible?#########################
+- Most popular open source automation tool
+- Created in 2012
+- Acquired by redhat 2015
+
+Feature:
+- Agentless
+- Use same method as Admin
+	- Secure Shell(SSH)
+	- Windows Remote Management(WinRM)
+	- Application programming Interface(API)
+
+Simplicity:
+- Playbooks: YAML automation scripts
+- YAML has reusability
+- Don't need to be programmer
+
+-------------Cross Platform Compatibility/Scalablity-------------
+
+Active COmmunity: 
+	- Software developers
+	- Administrator
+
+###################Ansible Architechture##################
+
+Ansible has two concepts. 
+
+
+- Local Executions
+- Remote Executions
+
+#Local Execution:
+
+- Used mostly with network elements (router/switch) and APIs
+- Ansible controller: server running Ansible
+- Connect and issue CLI commands. 
+- API Commands sent directly.
+
+#Remote Execution:
+
+- Execute from remote host. 
+- Controller copy scripts to remote host and executes there
+- No modifications or extra variable required. 
+
+
+
+############################Ansible Core, community ##########################
+
+for version 2.10
+
+-- Ansible Community
+	- Choose by default
+	- Binaries and commonly used components
+	- Simplest and Quickest way to get start
+
+-- Ansible Core
+	- Contains only essentials components
+	- Addtional components often required
+	- Commonly used by developers and admins
+
+-- Ansible Navigator
+	- Most flexible option
+	- Build on core
+	- Execute inside of containers called execution enviroment
+	- Future proof
+	- More complicated
+
+*What is container?
+	A container is a lightweight, portable and self-sufficient
+	unit that include the necessary code, runtime,
+	libraries, and dependencies to run an application
+	consistently across different computing enviroments.
+
+-- Container
+	- EE: lightweight virtual linux instances
+	- Turns on, runs automation, turn off
+	
+
+##########What are execution enviroment##############
+
+EE: Execution Enviroment
+
+	- Doesn't run directly on host server
+	- EE spins up to run automation
+
+- Ansible is written in python
+- Ansible controller requires python
+- Different components can support different python versions. 
+- When multiple versions are required, multiple python virtual
+	enviroments must be maintained. 
+
+
+EE Creation
+
+- Each with different Python version and Ansible components. 
+- No worry of version changes
+- EE creation is cumbersome
+
+------------ Module 1 End ------------
