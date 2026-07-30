@@ -1,0 +1,19 @@
+-----------------Install Ansible ----------------------
+
+Install Notes
+
+- Recommend virtual machine for testing
+- Any Enterprise Linux(EL) is recommended.
+- Installs on Debian, Ubuntu, macOS, BSD, Windows Subsystem for Linux (WSL).
+- Upcoming pip commands should work the same on Mac.
+
+-----Inside the codespace ------
+
+- sudo dnf install -y  python3-pip
+- pip install ansible
+- pip install ansible -U // upgrade the ansible
+
+-- ansible --version // verify the installation
+-- pip install paramiko //optional
+
+--------------End of file -------------------
