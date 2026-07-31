@@ -1,0 +1,123 @@
+---------------------Start of Module-------------------
+
+#Choosing the Editor
+Any text editor will work. 
+
+- Notepad
+	- Least efficient.
+	- Teaches spacing the hard way
+
+- Notepad ++
+	- Syntax highlighting
+	- Provides columns for easier Indentation
+
+- Git Repos
+	- Version controlled storage space for files/change history
+	- Enables collaboration/efficient code management
+	
+- VS Code Integrated Development Enviroment (IDE)
+	- Free/open source
+	- Syntax highlighting, integrates with git, plug-in architecture
+
+- GitHub Copilot
+	- Integrate into VS Code
+	- Cost per month
+	- Vastly improved efficiency
+
+#First Playbook
+
+-- New directory
+	-- New file (first-playbook.yml)
+------Start of file------------
+---
+- name: Write a simple file
+  hosts: LL-rocky9-01 //or all
+  gather_facts: false
+  tasks:
+    - name: Write file test.txt to temp directory
+      ansible.builtin.lineinfile:
+        path: /tmp/test.txt
+        line: just a quick and simple test
+        create: true
+-------End of File-------------
+		- Save the file
+	- Your playbook is ready 
+
+# Create Inventory
+
+- Before you run the playbook, you will need to create an Inventory. 
+	-- What is Inventory?
+		It just a file wit a big list of hosts against which the Automations
+		are supposed to run. 
+
+-- Create new file
+	-- new file (inventory)
+---------Start of File-----------
+[rocky9] //Group name of hosts
+LL-rocky9-01 ansible_host=10.0.50.43  //use of magic variable
+
+[rocky9:vars]
+ansible_user=ansible
+ansible_ssh_pass=password	//This practice is only recommended for Lab enviroment
+ansible_become_pass=password	//not a valid practice for prod enviroment. 
+
+---------End of File-----------
+Note* Never enter the user pass in any Inventory file. This is only for personal,
+	or lab envorment, where the vm's are only for test and destroyed alter. 
+
+# Key versus password authentication
+
+-- Password Authentication
+	- Can be simpler to use
+	- More Familiar
+	- Can be less secure
+
+-- SSH Key Authentication
+	- More Secure
+	- Less vulnerable
+	- Faster once set up
+	- More difficult initial config
+	- Pubic key added to each host
+
+-- Privilege Esclation
+	- Command accounts are user and admin
+	- Users can esclate privilge to perform admin
+	- Linux: usually "sudo"
+	- Windows: "run as administrator"
+	- EL host can be added to "wheel" group for sudo permissions
+
+-- Password-Based Caveat
+	- Default wants previous SSH key fingerprint for each host
+	- Greatly inhibits connecting to new hosts
+	- Less secure, so exercise caution
+
+Optional: 
+	-- create new file(ansible.cfg)
+--------------start of file------------
+[defaults]
+host_key_check = False
+
+--------------end of file-------------
+
+Note* This is optional, and caution are recommended when following
+
+
+# Run a playbook
+
+-- Open a new terminal in VS code
+-- change to directory where the files are present
+-- ansible-playbook -i inventory first-playbook.yml
+	-- You will see the output
+	-- Observe the output with colour and change. 
+-- ansible-playbook -i inventory -u ansible --ask-pass first-playbook.yml
+		-- You will be prompted for ssh password for hosts
+		-- Enter the password, to complete the automation
+-- ansible-playbook -i inventory -u ansible --ask-pass first-playbook.yml --ask-become-pass
+		-- In privielge esclation required you have to use this for password. 
+		-- It is becoming a new way for ansible use
+
+Note: Most ansible module will make the change only when necessary. 
+	A feature called idompotency.
+
+
+------------------------End of Module ---------------------
