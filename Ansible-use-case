@@ -1,0 +1,174 @@
+-------------------------Start of Module-----------------
+
+#Information Gathering via facts
+
+-- Gathering Facts
+	- Key-value pairs of data
+	- IP Addressing
+	- Drive info
+	- Current OS etc.
+
+-- Create a new file(gather-facts.yml)
+------------Start of file-----------
+---
+- name: Gather facts and display it
+  hosts: LL-rocky9-01
+  tasks:
+  - name: Display all gathered facts
+    ansible.builtin.debug:
+      var: ansible_facts
+
+  - name: Display the currently running kernel version and distro
+    ansible.builtin.debug
+      msg: "The kernel version is {{ ansible_facts.kernel }} and the distribution is {{ ansible_facts.distribution }}
+--------------End of file------------
+
+-- Run ansible-playbook -i inventory gather-facts.yml
+-- Go through gather facts modules. 
+Note* This is useful for creating reports of the machines. 	
+		
+
+# Simple Config Management
+
+* Tasks: Create a web server to display hello world!
+
+-- Create a new file (webserver.yml)
+--------------start of file--------------
+---
+- name: Quick webserver install and config
+  hosts: LL-rocky9-01
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Install apache webserver
+      ansible.builtin.package:
+        name: httpd
+        state: present
+
+
+    - name: Start and enable apache
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Write a simple index.html file
+      ansible.builtin.lineinfile
+        path: /var/www/html/index/html
+        line: "<h1>Hello World!<h1>"
+        create: true
+-----------End of file----------------
+
+-- Save the file. 
+
+run ansible-playbook -i inventory webserver.yml
+
+run curl http://Ip of the machine  
+* to validate the server is running and configured correctly. 
+
+#Idempotence
+
+* I can rerun a piece of automation as many times as I want and it will only
+  make change when necessary.
+
+-- Idempotence Output
+
+ok			Everything executed fine, and no changes were made.
+changed			Everything executed fine, and the automation made a change to the host. 
+failed			The task failed for a host. This will cause  the playbook to show a failed status.
+skipping		This task had a conditional set, and the host didn't match,
+			so it skipped for this specific host. 
+
+-- Idempotence Caveat
+
+- Not all modules are idempotent
+- Example: shell module
+- Example shell command: echo hello > hello.txt
+
+--Create a test file(idempotent.yml)
+-----------------Start of file------------
+---
+- name: Testing idempotence
+  hosts: LL-rocky09-01
+  gather_facts: false
+  tasks:
+   - name: Use shell to echo hello to hello.txt
+     ansible.builtin.shell: echo hello > /tmp/hello.txt
+-------------------End of File--------------
+
+- Save a file
+
+run ansible-playbook -i inventory idempotent.yml
+--Output: changed
+run again and observe the output
+
+# Using Variables, Conditionals and Loops
+
+-- Variables
+	- Information gathering
+	- Adds flexibility
+	- {{ variable_name_here }}
+	- 22 levels of variable precedence
+	- I placed username/passwords in inventory
+	- Example: set_facts module, vars section, registering contents of task.
+-- create a file(vcl.yml)
+--------Start of file------------
+---
+- name: Vars, conditionals, and loops
+  hosts: LL-rocky9-01
+  gather_facts: false
+  vars:
+    nums:
+      - 1
+      - 10
+      - 20
+      - 25
+      - 30
+   tasks:
+     - name: Display any numbers larger than 10
+       when: item > 10		// Conditional statement
+       ansible.builtin.debug:
+         msg: "{{ item }}"
+       loop: "{{ nums }}"
+----------End of file-------------
+- save the file and then run it. 
+
+-- Condtionals
+	- Wehn: task-level parameter
+	- No quotes or curly braces for variables
+	- Comparators like >,<,==
+	- !: "is not" operator
+	- Example: !=
+
+#AWX and Derivatives
+
+--Running ansible at  Enterprise scale
+
+-- AWXs
+	AWX and derivatives like Ascender and AAP
+	- Air trafiic controllers for Ansible
+	- Who can do what, when, and where
+	- GUI eases transition for ther Admins
+
+-- Application Programming Interface
+	- Network Monitoring
+	- Pipelines
+	- IT Service Management
+
+-- Role Based Access Control (RBAC)
+	- Assign permissions inside the platform
+	- Permissions on invenotories, credentials, playbooks, playbook execution.
+	- Automation Protection and sharing
+
+-- Inventory
+	- Stored in database instead of files
+	- Easier dynamic Inventory
+
+-- AWX Additional Features
+	- View detailed logs
+	- Schedule automations
+	- Perform external authentication
+	- Use secrets engines
+	- Ship logs off for compliance
+
+--------------End of Module-------------------------------
